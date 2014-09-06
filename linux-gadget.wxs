@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='Windows-1252'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'
+     xmlns:difx='http://schemas.microsoft.com/wix/DifxAppExtension'>
+  <Product Name='Linux Gadget Drivers' Id='ADB01CD7-3710-4610-90D0-6976B3D15016' Language='1033' Codepage='1252' Version='1.0' Manufacturer='Linux' UpgradeCode='ADB01CD7-3710-4610-90D0-6976B3D15016'>
+    <Package Id='*' Keywords='linux-gadget' Description='Linux Gadget Drivers Installer' Comments='Installs Linux USB serial and RNDIS Gadget Drivers' Manufacturer='Linux' InstallerVersion='200' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+    <Media Id='1' Cabinet='Installer.cab' EmbedCab='yes' DiskPrompt='Linux Gadget Driver Media' />
+    <Property Id='DiskPrompt' Value='Linux Gadget Driver Install Media' />
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='ProgramFiles64Folder'>
+        <Directory Id='INSTALLDIR' Name='Linux Gadget Drivers'>
+          <Directory Id='SerialDriverDir' Name='SerialDriver'>
+            <Component Id='UsbSerialDriver' Guid='032E6DC8-8F10-4C85-8D95-A4BE606E0A24'>
+              <File Id='serialINF' Name='linux-cdc-acm.inf' DiskId='1' Source='Driver\linux-cdc-acm.inf' KeyPath='yes' />
+              <difx:Driver AddRemovePrograms="no" Legacy="yes" PlugAndPlayPrompt="no" Sequence='1' />
+            </Component>
+          </Directory>
+          <Directory Id='RndisDriverDir' Name='RndisDriver'>
+            <Component Id='RndisDriver' Guid='BD1F1B71-BBCD-45BE-A9C3-57956A42A2FA'>
+              <File Id='rndisINF' Name='linux-rndis.inf' DiskId='1' Source='Driver\linux-rndis.inf' KeyPath='yes' />
+              <difx:Driver AddRemovePrograms="no" Legacy="yes" PlugAndPlayPrompt="no" Sequence='2' />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id='Complete' Level='1'>
+      <ComponentRef Id='UsbSerialDriver' />
+      <ComponentRef Id='RndisDriver' />
+    </Feature>
+
+    <UIRef Id="WixUI_Minimal" />
+
+  </Product>
+</Wix>
